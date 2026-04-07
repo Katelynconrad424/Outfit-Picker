@@ -3,7 +3,7 @@ import ClothingCard from "../components/ClothingCard";
 import OutfitPreview from "../components/OutfitPreview";
 
 function Builder() {
-  const { items } = useOutfit();
+  const { items, notification } = useOutfit();
 
   return (
     <section>
@@ -11,6 +11,8 @@ function Builder() {
         <h2>Outfit Builder</h2>
         <p>Pick one item from each category to build a full look.</p>
       </div>
+
+      {notification && <div className="notification">{notification}</div>}
 
       <OutfitPreview />
 

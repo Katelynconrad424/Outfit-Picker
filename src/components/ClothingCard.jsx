@@ -1,7 +1,25 @@
 import { useOutfit } from "../context/OutfitContext";
 
 function ClothingCard({ item }) {
-  const { addToOutfit } = useOutfit();
+  const {
+    addToOutfit,
+    selectedTop,
+    selectedBottom,
+    selectedShoes,
+    selectedExtra,
+  } = useOutfit();
+
+  let isAdded = false;
+
+  if (item.category === "top" && selectedTop?.id === item.id) {
+    isAdded = true;
+  } else if (item.category === "bottom" && selectedBottom?.id === item.id) {
+    isAdded = true;
+  } else if (item.category === "shoes" && selectedShoes?.id === item.id) {
+    isAdded = true;
+  } else if (item.category === "extra" && selectedExtra?.id === item.id) {
+    isAdded = true;
+  }
 
   return (
     <div className="card">
@@ -13,8 +31,11 @@ function ClothingCard({ item }) {
         <p>Color: {item.color}</p>
         <p>Occasion: {item.occasion}</p>
 
-        <button onClick={() => addToOutfit(item)} className="button">
-          Add to Outfit
+        <button
+          onClick={() => addToOutfit(item)}
+          className={isAdded ? "button button-added" : "button"}
+        >
+          {isAdded ? "Added to Outfit" : "Add to Outfit"}
         </button>
       </div>
     </div>

@@ -33,6 +33,10 @@ export function OutfitProvider({ children }) {
   }
 
   function saveOutfit() {
+    if (!selectedTop || !selectedBottom || !selectedShoes) {
+      return;
+    }
+
     const newOutfit = {
       id: Date.now(),
       name: `Look #${favorites.length + 1}`,
@@ -43,10 +47,26 @@ export function OutfitProvider({ children }) {
     };
 
     setFavorites([...favorites, newOutfit]);
+    clearOutfit();
   }
 
   function removeFavorite(id) {
     const updatedFavorites = favorites.filter((outfit) => outfit.id !== id);
+    setFavorites(updatedFavorites);
+  }
+
+  function updateOutfitName(id, newName) {
+    const updatedFavorites = favorites.map((outfit) => {
+      if (outfit.id === id) {
+        return {
+          ...outfit,
+          name: newName,
+        };
+      }
+
+      return outfit;
+    });
+
     setFavorites(updatedFavorites);
   }
 
@@ -63,6 +83,7 @@ export function OutfitProvider({ children }) {
         clearOutfit,
         saveOutfit,
         removeFavorite,
+        updateOutfitName,
       }}
     >
       {children}

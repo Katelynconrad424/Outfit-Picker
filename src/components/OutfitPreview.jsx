@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import { useOutfit } from "../context/OutfitContext";
 
 function OutfitPreview() {
+  const navigate = useNavigate();
+
   const {
     selectedTop,
     selectedBottom,
@@ -9,6 +12,13 @@ function OutfitPreview() {
     clearOutfit,
     saveOutfit,
   } = useOutfit();
+
+  const outfitComplete = selectedTop && selectedBottom && selectedShoes;
+
+  function handleSaveOutfit() {
+    saveOutfit();
+    navigate("/favorites");
+  }
 
   return (
     <section className="preview-box">
@@ -33,8 +43,24 @@ function OutfitPreview() {
         </p>
       </div>
 
+      {!outfitComplete && (
+        <p className="preview-note">
+          Add a top, bottom, and shoes to complete your outfit.
+        </p>
+      )}
+
+      {outfitComplete && (
+        <p className="preview-success">
+          Your outfit is complete and ready to save.
+        </p>
+      )}
+
       <div className="button-row">
-        <button onClick={saveOutfit} className="button">
+        <button
+          onClick={handleSaveOutfit}
+          className={outfitComplete ? "button" : "button button-disabled"}
+          disabled={!outfitComplete}
+        >
           Save Outfit
         </button>
 
